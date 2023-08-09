@@ -1,5 +1,5 @@
 import Img from '../../assets/child.jpg'
-import { EJ, Ejay, Jasper } from '../dummy_image/dummyImage'
+import { EJ, Ejay, Jasper, Karaoke } from '../dummy_image/dummyImage'
 
 export const SomeData = [
     {
@@ -37,5 +37,14 @@ export const SomeData = [
         name: 'Jasper',
         quotes: 'Be yourself; everyone else is already taken',
         from: '-- Oscar Wilde'
+    },
+    {
+        id: 5,
+        profile: EJ,
+        email: 'ej@gmail.com',
+        name: 'Ej',
+        quotes: 'Do you have a passion for singing? Want to showcase your talent on a thrilling stage? This is your chance! Join us for an unforgettable night of music and entertainment at our Kave-Raoke Singing Extravaganza. 🤩',
+        from: '-- Jeaye',
+        image: Karaoke
     }
 ]

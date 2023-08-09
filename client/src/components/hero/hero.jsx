@@ -4,6 +4,7 @@ import Modal from './openModal'
 import RightAbout from '../rightContentAbout/RightAbout'
 import { Jasper } from '../../helper/dummy_image/dummyImage'
 import { BiPhotoAlbum } from 'react-icons/bi'
+import OnlineUsers from '../onlineUsers/OnlineUser'
 
 export default function Hero(){
      const [openModal, setOpenModal] = useState(false)
@@ -11,10 +12,8 @@ export default function Hero(){
 
     return(
         <div className='mx-auto max-w-[1600px] flex flex-col md:flex-row text-white'>
-           <div className="w-1/5 flex-grow">
-                {/* hello */}
-           </div>
-           <Modal 
+           <OnlineUsers />
+           <Modal
                openModal={openModal}
                setOpenModal={setOpenModal}
                />

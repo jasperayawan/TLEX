@@ -9,8 +9,8 @@ export default function Forget(){
         alert('not available')
     }
     return(
-        <div className="min-h-screen text-white bg-gradient-to-tr from-[#040814] to-[#191d2b] flex">
-            <div className="w-1/2">
+        <div className="min-h-screen text-white bg-gradient-to-tr from-[#040814] to-[#191d2b] flex overflow-auto">
+            <div className="w-1/2 sticky top-0">
                 <img src={church} alt="" className="object-cover h-full w-full"/>
             </div>
             <div className="w-1/2 h-screen flex justify-center items-center p-20">
@@ -23,8 +23,8 @@ export default function Forget(){
                     <form>
                         <div className="flex flex-col gap-y-2">
                             <div className="flex flex-col gap-x-10 justify-start">
-                                <label htmlFor="password" className="font-bold text-zinc-600">Enter new Password</label>
-                                <input type="password" placeholder="Enter Passowrd" className="bg-gray-700 text-gray-500 px-4 py-2 pr-20 rounded-md"/>
+                                <label htmlFor="password" className="font-bold text-zinc-600">New Password</label>
+                                <input type="password" placeholder="Enter new Password" className="bg-gray-700 text-gray-500 px-4 py-2 pr-20 rounded-md"/>
                             </div>
                             <div className="flex justify-end">
                                 <Link to='/login' className="text-gray-500 font-bold">login?</Link>

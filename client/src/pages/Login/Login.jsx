@@ -9,8 +9,8 @@ export default function Login(){
         alert('not available')
     }
     return(
-        <div className="min-h-screen text-white bg-gradient-to-tr from-[#040814] to-[#191d2b] flex">
-            <div className="w-1/2">
+        <div className="min-h-screen text-white bg-gradient-to-tr from-[#040814] to-[#191d2b] flex overflow-auto">
+            <div className="w-1/2 sticky top-0">
                 <img src={church} alt="" className="object-cover h-full w-full"/>
             </div>
             <div className="w-1/2 h-screen flex justify-center items-center p-20">

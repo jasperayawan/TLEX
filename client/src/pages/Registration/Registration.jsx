@@ -1,5 +1,5 @@
 import { church } from "../../helper/dummy_image/dummyImage"
-
+import { Link } from 'react-router-dom'
 
 export default function Registration(){
 
@@ -33,6 +33,10 @@ export default function Registration(){
                             <div className="flex flex-col gap-x-10 justify-start">
                                 <label htmlFor="name" className="font-bold text-zinc-600">Email</label>
                                 <input type="text" placeholder="Email" className="bg-gray-700 text-gray-500 px-4 py-2 pr-20 rounded-md"/>
+                            </div>
+                            <div className="flex flex-col gap-x-10 justify-start">
+                                <label htmlFor="password" className="font-bold text-zinc-600">Password</label>
+                                <input type="password" placeholder="Enter Passowrd" className="bg-gray-700 text-gray-500 px-4 py-2 pr-20 rounded-md"/>
                             </div>
                             <div className="flex flex-col gap-x-10 justify-start">
                                 <label htmlFor="name" className="font-bold text-zinc-600">Gender</label>
@@ -93,6 +97,9 @@ export default function Registration(){
                                     <option value="CN">China</option>
                                     </select>
 
+                            </div>
+                            <div className="flex justify-end">
+                                <span>Already have an account? <Link to='/login' className="text-[#59A52C]">Login now!</Link></span>
                             </div>
                             <div className="flex justify-center items-center mt-4">
                                 <button 

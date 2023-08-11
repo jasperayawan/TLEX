@@ -27,7 +27,7 @@ export default function Forget(){
                                 <input type="password" placeholder="Enter new Password" className="bg-gray-700 text-gray-500 px-4 py-2 pr-20 rounded-md"/>
                             </div>
                             <div className="flex justify-end">
-                                <Link to='/login' className="text-gray-500 font-bold">login?</Link>
+                                <Link to='/' className="text-gray-500 font-bold">login?</Link>
                             </div>
                             <div className="flex justify-center items-center mt-4">
                                 <button 

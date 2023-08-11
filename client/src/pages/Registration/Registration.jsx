@@ -100,7 +100,7 @@ export default function Registration(){
 
                             </div>
                             <div className="flex justify-end">
-                                <span>Already have an account? <Link to='/login' className="text-[#59A52C]">Login now!</Link></span>
+                                <span>Already have an account? <Link to='/' className="text-[#59A52C]">Login now!</Link></span>
                             </div>
                             <div className="flex justify-center items-center mt-4">
                                 <button 

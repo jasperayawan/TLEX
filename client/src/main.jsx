@@ -15,14 +15,14 @@ const persistor = persistStore(store);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <ChakraProvider>
-    <React.StrictMode>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <Router>
-            <App />
-          </Router>
-        </PersistGate>
-      </Provider>
-    </React.StrictMode>
+      <React.StrictMode>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <Router>
+              <App />
+            </Router>
+          </PersistGate>
+        </Provider>
+      </React.StrictMode>
   </ChakraProvider>
 )

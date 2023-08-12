@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require("body-parser");
 const ParseServer = require("parse-server").ParseServer;
 const ParseDashboard = require("parse-dashboard");
+const userRoutes = require('../tlex-backend/routes/user')
 
 const dotenv = require('dotenv');
 const cors = require('cors')
@@ -20,6 +21,7 @@ const api = new ParseServer({
     appId: "123",
     masterKey: "1234",
     serverURL: `http://localhost:${port}/parse`,
+    cloud: "./cloud/main.js"
   });
   
   const dashboardConfig = new ParseDashboard({
@@ -38,7 +40,7 @@ const api = new ParseServer({
   app.use("/dashboard", dashboardConfig);
 
 
-
+  app.use('/api/user', userRoutes)
 
   app.listen(port, () => {
     console.log('Server listening to port: ', port)

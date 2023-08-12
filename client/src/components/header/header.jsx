@@ -1,7 +1,8 @@
 import { Jasper } from '../../helper/dummy_image/dummyImage'
 import { MdNotifications } from 'react-icons/md'
 import { BiSearchAlt2 } from 'react-icons/bi'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import Axios from 'axios';
 
 import {
     Menu,
@@ -17,6 +18,31 @@ import { useState } from 'react'
 
 export default function Header(){
     const [toggleMenu, setToggleMenu] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const Navigate = useNavigate();
+
+  const handleLogout = async () => {
+    setLoading(true);
+
+    try {
+       const response = await Axios.post('http://localhost:8080/api/user/logout', null, {
+        headers: {
+          "X-Parse-Master-Key": "1234",
+          "X-Parse-Application-Id": "123",
+        },
+      });
+      // Perform any additional client-side logout actions
+      setLoading(false);
+      if(response.status === 200){
+        Navigate('/')
+      }
+      // Redirect or perform other actions after successful logout
+    } catch (error) {
+      console.error('Logout error:', error);
+      setLoading(false);
+      // Handle error, show a toast message, etc.
+    }
+  };
 
     const handleLinkClick = () => {
         setToggleMenu(false);
@@ -51,9 +77,11 @@ export default function Header(){
                             </MenuItem>
                             <MenuItem>
                             <button
+                                onClick={handleLogout}
+                                disabled={loading}
                                 className="hover:bg-[#59A52C] hover:text-white duration-200 w-full uppercase text-black border-2 border-black font-semibold px-4 py-2.5 rounded-md text-sm" 
                                 >
-                            Logout
+                            {loading ? 'Logging out...' : 'Logout'}
                             </button>
                             </MenuItem>
                         </MenuList>

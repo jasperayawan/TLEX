@@ -3,11 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import Axios from "axios";
 import { toast } from "react-hot-toast";
 import { useState } from "react";
+import { useToast } from '@chakra-ui/react'
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const Navigate = useNavigate()
+  const toast = useToast()
 
   const handleRegistration = async (e) => {
     e.preventDefault();
@@ -27,10 +29,25 @@ export default function Login() {
 
         if(response.status === 200){
             Navigate('/index')
+            toast({
+              title: 'Login successfully!',
+              description: "We've created your account for you.",
+              status: 'success',
+              duration: 3000,
+              isClosable: true,
+              position: 'top-right'
+            })
         }
     }
     catch(error){
-        toast.error("login failed!")
+      toast({
+        title: "Login Failed",
+        description: "Please check your email and password.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right'
+      });
     }
   };
   return (

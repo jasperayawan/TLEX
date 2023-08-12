@@ -2,7 +2,7 @@ import { church } from "../../helper/dummy_image/dummyImage";
 import { Link, useNavigate } from "react-router-dom";
 import Axios from "axios";
 import { useState } from "react";
-import { toast } from "react-hot-toast";
+import { useToast } from '@chakra-ui/react'
 
 export default function Registration() {
   const [username, setUsername] = useState("");
@@ -13,6 +13,7 @@ export default function Registration() {
   const [address, setAddress] = useState("");
   const [country, setCountry] = useState("");
   const Navigate = useNavigate();
+  const toast = useToast()
 
   const handleRegistration = async (e) => {
     e.preventDefault();
@@ -38,11 +39,25 @@ export default function Registration() {
       );
 
       if (response.status === 200) {
-        toast.success("user created successfully!");
+        toast({
+          title: 'Account successfully created!',
+          description: "We've created your account for you.",
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+          position: 'top-right'
+        })
         Navigate("/");
       }
     } catch (error) {
-      toast.error("server down");
+      toast({
+        title: "Failed creating an account!",
+        description: "Please check your email and password.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right'
+      });
     }
   };
   return (

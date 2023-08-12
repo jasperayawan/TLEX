@@ -3,6 +3,7 @@ import { MdNotifications } from 'react-icons/md'
 import { BiSearchAlt2 } from 'react-icons/bi'
 import { Link, useNavigate } from 'react-router-dom'
 import Axios from 'axios';
+import { useToast } from '@chakra-ui/react'
 
 import {
     Menu,
@@ -20,6 +21,7 @@ export default function Header(){
     const [toggleMenu, setToggleMenu] = useState(false);
     const [loading, setLoading] = useState(false);
     const Navigate = useNavigate();
+    const toast = useToast()
 
   const handleLogout = async () => {
     setLoading(true);
@@ -40,6 +42,14 @@ export default function Header(){
         localStorage.removeItem('jwtToken')
 
         Navigate('/')
+        toast({
+            title: 'Logout successfully.',
+            description: "We've created your account for you.",
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+            position: 'top-right'
+          })
       }
       // Redirect or perform other actions after successful logout
     } catch (error) {

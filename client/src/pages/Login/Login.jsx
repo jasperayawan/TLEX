@@ -12,6 +12,9 @@ export default function Login() {
   const handleRegistration = async (e) => {
     e.preventDefault();
 
+    localStorage.setItem('email', email);
+    localStorage.setItem('password', password);
+
     try{
         const response = await Axios.post('http://localhost:8080/api/user/login', 
         {email, password},

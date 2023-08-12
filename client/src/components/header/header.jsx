@@ -34,6 +34,11 @@ export default function Header(){
       // Perform any additional client-side logout actions
       setLoading(false);
       if(response.status === 200){
+        localStorage.removeItem('user')
+        localStorage.removeItem('email')
+        localStorage.removeItem('password')
+        localStorage.removeItem('jwtToken')
+
         Navigate('/')
       }
       // Redirect or perform other actions after successful logout

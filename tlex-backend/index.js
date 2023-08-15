@@ -9,6 +9,7 @@ const morgan = require('morgan')
 // const userRoute = require('../tlex-backend/routes/user')
 const authRoute = require('../tlex-backend/routes/auth')
 const userRoute = require('../tlex-backend/routes/user')
+const postRoute = require('../tlex-backend/routes/post')
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ port = process.env.PORT;
 // app.use('/api/user', userRoute);
 app.use('/api/auth', authRoute);
 app.use('/api/users', userRoute);
+app.use('/api/posts', postRoute);
 
 
 app.listen(port, () => {

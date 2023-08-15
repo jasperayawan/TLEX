@@ -1,31 +1,55 @@
 import { useState } from 'react'
 import Posts from '../postContent/post'
-import Modal from './openModal'
+import Modals from './openModal'
 import RightAbout from '../rightContentAbout/RightAbout'
 import { Jasper } from '../../helper/dummy_image/dummyImage'
 import { BiPhotoAlbum } from 'react-icons/bi'
 import OnlineUsers from '../onlineUsers/OnlineUser'
 
+import {
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+    Button,
+    useDisclosure,
+  } from '@chakra-ui/react'
+
 export default function Hero(){
      const [openModal, setOpenModal] = useState(false)
+     const { isOpen, onOpen, onClose } = useDisclosure()
 
 
     return(
         <div className='mx-auto max-w-[1600px] flex flex-col md:flex-row text-white'>
            <OnlineUsers />
-           <Modal
+           <Modals
                openModal={openModal}
                setOpenModal={setOpenModal}
                />
             
            <div className="w-1/2 min-h-screen overflow-y-auto">
-                {/* <div className="h-[80px] mb-4 flex justify-center items-center">
-                     <button 
-                         onClick={() => setOpenModal(true)}
-                         className='w-[50px] h-[50px] ring-1 ring-white rounded-full bg-slate-100 text-black text-lg font-bold'>
-                     <span>+</span>
-                     </button>
-                </div> */}
+             <Modal isOpen={isOpen} onClose={onClose}>
+                    <ModalOverlay />
+                    <ModalContent>
+                    <ModalHeader>Modal Title</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        
+                    </ModalBody>
+
+                    <ModalFooter>
+                        <button 
+                        onClick={onClose}
+                        className='bg-[#59A52C] text-white px-5 py-2 rounded-3xl'>
+                        Close
+                        </button>
+                    </ModalFooter>
+                    </ModalContent>
+                </Modal>
                 <div className="px-10 py-2 pt-5">
                     <div className="flex justify-between items-center bg-[#070d1f] py-4 px-2">
                         <div className="flex flex-row justify-start items-center gap-x-5">
@@ -36,7 +60,9 @@ export default function Hero(){
                             </div>
                         </div>
                         <div>
-                            <button className='bg-[#59A52C] px-5 py-2 rounded-3xl'>
+                            <button 
+                                onClick={onOpen}
+                                className='bg-[#59A52C] px-5 py-2 rounded-3xl'>
                                 Post
                             </button>
                         </div>

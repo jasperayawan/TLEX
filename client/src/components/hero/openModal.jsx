@@ -1,5 +1,5 @@
 
-export default function Modal({ openModal, setOpenModal }){
+export default function Modals({ openModal, setOpenModal }){
     return(
         <>
             {openModal && (

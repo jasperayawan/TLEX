@@ -49,4 +49,23 @@ router.delete('/:id', async (req, res) => {
         res.status(500).json(error)
     }
 })
+
+
+// react a post and disreact
+router.put('/:id/react', async (req, res) => {
+    try{
+        const post = await Post.findById(req.params.id);
+        if(!post.reacts.includes(req.body.userId)){
+            await post.updateOne({$push: { reacts:req.body.userId } });
+            res.status(200).json("The post has been reacted!")
+        } else {
+            await post.updateOne({$pull: {reacts: req.body.userId}});
+            res.status(200).json("The post has been disreacted"); 
+        }
+    }
+    catch(error){
+        res.status(500).json(error)
+    }
+
+})
 module.exports = router

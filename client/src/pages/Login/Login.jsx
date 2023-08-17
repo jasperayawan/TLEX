@@ -1,13 +1,12 @@
 import { church } from "../../helper/dummy_image/dummyImage";
 import { Link, useNavigate } from "react-router-dom";
 import Axios from "axios";
-import { toast } from "react-hot-toast";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useToast } from '@chakra-ui/react'
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const email = useRef();
+  const password = useRef();
   const Navigate = useNavigate()
   const toast = useToast()
 
@@ -18,14 +17,13 @@ export default function Login() {
     localStorage.setItem('password', password);
 
     try{
-        const response = await Axios.post('http://localhost:8080/api/user/login', 
-        {email, password},
-        {
-            headers: {
-                "X-Parse-Master-Key": "1234",
-                "X-Parse-Application-Id": "123",
-            }
-        })
+       const user = {
+        email: email.current.value,
+        password: password.current.value,
+       }
+        const response = await Axios.post('http://localhost:3872/api/auth/login', 
+        user
+       )
 
         if(response.status === 200){
             Navigate('/index')
@@ -73,8 +71,7 @@ export default function Login() {
                   Email
                 </label>
                 <input
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  ref={email}
                   type="text"
                   placeholder="Email"
                   className="bg-gray-700 text-gray-500 px-4 py-2 pr-20 rounded-md"
@@ -90,8 +87,7 @@ export default function Login() {
                   Password
                 </label>
                 <input
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  ref={password}
                   type="password"
                   placeholder="Enter Passowrd"
                   className="bg-gray-700 text-gray-500 px-4 py-2 pr-20 rounded-md"

@@ -1,64 +1,58 @@
 import { church } from "../../helper/dummy_image/dummyImage";
 import { Link, useNavigate } from "react-router-dom";
 import Axios from "axios";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useToast } from '@chakra-ui/react'
 
 export default function Registration() {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [gender, setGender] = useState("");
-  const [bod, setBod] = useState("");
-  const [address, setAddress] = useState("");
-  const [country, setCountry] = useState("");
+  const username = useRef();
+  const email = useRef();
+  const password = useRef();
+  const confirmPassword = useRef();
   const Navigate = useNavigate();
   const toast = useToast()
 
   const handleRegistration = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = await Axios.post(
-        "http://localhost:8080/api/user/register",
-        {
-          username,
-          email,
-          password,
-          gender,
-          bod,
-          address,
-          country,
-        },
-        {
-          headers: {
-            "X-Parse-Master-Key": "1234",
-            "X-Parse-Application-Id": "123",
-          },
-        }
-      );
+    if(confirmPassword.current.value !== password.current.value){
+      password.current.setCustomValidity("Password don't match!")
+    } else {
 
-      if (response.status === 200) {
+      const user = {
+        username: username.current.value,
+        email: email.current.value,
+        password: password.current.value
+      }
+
+      try {
+        const response = await Axios.post(
+          "http://localhost:3872/api/auth/register", user);
+  
+        if (response.status === 200) {
+          toast({
+            title: 'Account successfully created!',
+            description: "We've created your account for you.",
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+            position: 'top-right'
+          })
+          Navigate("/");
+        }
+      } catch (error) {
         toast({
-          title: 'Account successfully created!',
-          description: "We've created your account for you.",
-          status: 'success',
+          title: "Failed creating an account!",
+          description: "Please check your email and password.",
+          status: "error",
           duration: 3000,
           isClosable: true,
           position: 'top-right'
-        })
-        Navigate("/");
+        });
       }
-    } catch (error) {
-      toast({
-        title: "Failed creating an account!",
-        description: "Please check your email and password.",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right'
-      });
     }
+
+    
   };
   return (
     <div>
@@ -84,10 +78,10 @@ export default function Registration() {
                     username
                   </label>
                   <input
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    ref={username}
                     type="text"
                     placeholder="username"
+                    required
                     className="bg-gray-700 text-gray-500 px-4 py-2 pr-20 rounded-md"
                   />
                 </div>
@@ -96,10 +90,10 @@ export default function Registration() {
                     Email
                   </label>
                   <input
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    ref={email}
                     type="text"
                     placeholder="Email"
+                    required
                     className="bg-gray-700 text-gray-500 px-4 py-2 pr-20 rounded-md"
                   />
                 </div>
@@ -108,116 +102,26 @@ export default function Registration() {
                     Password
                   </label>
                   <input
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    ref={password}
+                    minLength="6"
                     type="password"
                     placeholder="Enter Passowrd"
+                    required
                     className="bg-gray-700 text-gray-500 px-4 py-2 pr-20 rounded-md"
                   />
                 </div>
                 <div className="flex flex-col gap-x-10 justify-start">
-                  <label htmlFor="name" className="font-bold text-zinc-600">
-                    Gender
-                  </label>
-                    <div className="flex gap-x-2">
-                        <input
-                        type="radio"
-                        checked={gender === "male"}
-                        onChange={() => setGender("male")}
-                        className="px-4 py-2 pr-20 rounded-full"
-                        />
-                        <label htmlFor="name" className="font-bold text-gray-600">
-                        Male
-                        </label>
-                        <input
-                        type="radio"
-                        checked={gender === "female"}
-                        onChange={() => setGender("female")}
-                        className="px-4 py-2 pr-20 rounded-full"
-                        />
-                        <label htmlFor="name" className="font-bold text-gray-600">
-                        Female
-                        </label>
-                    </div>
-                </div>
-                <div className="flex flex-col gap-x-10 justify-start">
-                  <label htmlFor="name" className="font-bold text-zinc-600">
-                    Date of Birth
+                  <label htmlFor="password" className="font-bold text-zinc-600">
+                    Confirm Password
                   </label>
                   <input
-                    value={bod}
-                    onChange={(e) => setBod(e.target.value)}
-                    type="date"
-                    placeholder="Date of Birth"
-                    className="w-full bg-gray-700 text-gray-500 px-4 py-2 pr-20 rounded-md"
-                  />
-                </div>
-                <div className="flex flex-col gap-x-10 justify-start">
-                  <label htmlFor="name" className="font-bold text-zinc-600">
-                    Address
-                  </label>
-                  <input
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                    type="text"
-                    placeholder="Address"
+                    ref={confirmPassword}
+                    minLength="6"
+                    type="password"
+                    placeholder="Enter Passowrd"
+                    required
                     className="bg-gray-700 text-gray-500 px-4 py-2 pr-20 rounded-md"
                   />
-                </div>
-                <div className="flex flex-col gap-x-10 justify-start">
-                  <label htmlFor="name" className="font-bold text-zinc-600">
-                    Country
-                  </label>
-                  <select 
-                    value={country}
-                    onChange={(e) => setCountry(e.target.value)}
-                    className="bg-gray-700 px-4 py-2 pr-20 rounded-md text-zinc-400">
-                    <option value="">Select a country</option>
-                    <option value="AF">Afghanistan</option>
-                    <option value="AL">Albania</option>
-                    <option value="DZ">Algeria</option>
-                    <option value="AD">Andorra</option>
-                    <option value="AO">Angola</option>
-                    <option value="AG">Antigua and Barbuda</option>
-                    <option value="AR">Argentina</option>
-                    <option value="AM">Armenia</option>
-                    <option value="AU">Australia</option>
-                    <option value="AT">Austria</option>
-                    <option value="AZ">Azerbaijan</option>
-                    <option value="BS">Bahamas</option>
-                    <option value="BH">Bahrain</option>
-                    <option value="BD">Bangladesh</option>
-                    <option value="BB">Barbados</option>
-                    <option value="BY">Belarus</option>
-                    <option value="BE">Belgium</option>
-                    <option value="BZ">Belize</option>
-                    <option value="BJ">Benin</option>
-                    <option value="BT">Bhutan</option>
-                    <option value="BO">Bolivia</option>
-                    <option value="BA">Bosnia and Herzegovina</option>
-                    <option value="BW">Botswana</option>
-                    <option value="BR">Brazil</option>
-                    <option value="BN">Brunei</option>
-                    <option value="BG">Bulgaria</option>
-                    <option value="BF">Burkina Faso</option>
-                    <option value="BI">Burundi</option>
-                    <option value="CV">Cabo Verde</option>
-                    <option value="KH">Cambodia</option>
-                    <option value="CM">Cameroon</option>
-                    <option value="CA">Canada</option>
-                    <option value="CF">Central African Republic</option>
-                    <option value="TD">Chad</option>
-                    <option value="CL">Chile</option>
-                    <option value="CN">China</option>
-                  </select>
-                </div>
-                <div className="flex justify-end">
-                  <span>
-                    Already have an account?{" "}
-                    <Link to="/" className="text-[#59A52C]">
-                      Login now!
-                    </Link>
-                  </span>
                 </div>
                 <div className="flex justify-center items-center mt-4">
                   <button

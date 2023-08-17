@@ -7,6 +7,7 @@ import Forget from '../pages/Forget/forget'
 import Hero from '../components/hero/hero'
 
 export default function Router(){
+
     return(
         <SkeletonTheme baseColor='#313131' highlightColor='#525252'>
             <BrowserRouter>

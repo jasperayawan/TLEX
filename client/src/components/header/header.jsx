@@ -27,19 +27,13 @@ export default function Header(){
     setLoading(true);
 
     try {
-       const response = await Axios.post('http://localhost:8080/api/user/logout', null, {
-        headers: {
-          "X-Parse-Master-Key": "1234",
-          "X-Parse-Application-Id": "123",
-        },
-      });
+       const response = await Axios.post('http://localhost:8080/api/user/logout', null);
       // Perform any additional client-side logout actions
       setLoading(false);
       if(response.status === 200){
         localStorage.removeItem('user')
         localStorage.removeItem('email')
         localStorage.removeItem('password')
-        localStorage.removeItem('jwtToken')
 
         Navigate('/')
         toast({

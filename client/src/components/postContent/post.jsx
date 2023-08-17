@@ -33,7 +33,7 @@ export default function Posts({ posts }) {
   useEffect(() => {
     const getUser = async () => {
       try{
-        const response = await Axios.get(`http://localhost:3872/api/users/getUser/${posts.userId}`)
+        const response = await Axios.get(`http://localhost:3872/api/users?userId=${posts.userId}`)
         setUser(response.data)
       }
       catch(error){

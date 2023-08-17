@@ -96,9 +96,14 @@ router.put('/:id/unfollow', async (req, res) => {
 
 
 
-router.get('/getUser/:id', async (req, res) => {
+router.get('/', async (req, res) => {
+    const userId = req.query.userId;
+    const username = req.query.username;
+
     try{
-        const user = await User.findById(req.params.id)
+        const user = userId 
+        ? await User.findById(userId) 
+        : await User.findOne({ username:username })
         const {password, updatedAt, ...others} = user._doc
         if(!user){
             res.status(404).json("user not found!")

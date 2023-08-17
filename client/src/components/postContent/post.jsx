@@ -1,7 +1,7 @@
-import { SomeData } from "../../helper/dummy_data/someData";
 import { Link } from "react-router-dom";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { MdVerified } from "react-icons/md";
+import noProfile from '../../assets/no-profile.webp'
 import {
   BsSendFill,
   BsArrowThroughHeart,
@@ -12,9 +12,16 @@ import { FaComment } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useEffect, useState } from "react";
+import {format} from 'timeago.js'
+import Axios from 'axios'
 
-export default function Posts() {
+export default function Posts({ posts }) {
   const [isLoading, setIsLoading] = useState(true);
+  const [react, setReact] = useState(posts.reacts.length);
+  const [isReact, setIsReact] = useState(false);
+  const [user, setUser] = useState({})
+  // const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  const PF = "http://localhost:3872/assets/"
 
   useEffect(() => {
     // Simulate loading delay
@@ -23,14 +30,29 @@ export default function Posts() {
     }, 3000); // Simulate a 2-second delay
   }, []);
 
+  useEffect(() => {
+    const getUser = async () => {
+      try{
+        const response = await Axios.get(`http://localhost:3872/api/users/getUser/${posts.userId}`)
+        setUser(response.data)
+      }
+      catch(error){
+        console.log(error)
+      }
+    } 
+    getUser();
+  },[posts.userId])
+
+  
+  const reactHandler = () => {
+    setReact(isReact ? react - 1 : react + 1);
+    setIsReact(!isReact);
+  }
+
   return (
     <div className="text-white px-10 py-5">
       <div className="flex flex-col">
-        {SomeData.map((data) => (
-          <div
-            key={data.id}
-            className="mb-4 px-2 bg-[#070d1f] rounded-lg py-2 shadow-lg"
-          >
+      <div className="mb-4 px-2 bg-[#070d1f] rounded-lg py-2 shadow-lg">
             <div className="flex justify-between items-center mb-3">
               <div className="flex justify-center items-center gap-x-3">
                 <Link>
@@ -38,7 +60,7 @@ export default function Posts() {
                     <Skeleton width={40} height={20} />
                   ) : (
                     <img
-                      src={data.profile}
+                      src={posts.profilePicure || noProfile}
                       alt=""
                       className="w-[40px] h-[40px] object-cover rounded-full ring-2 ring-[#59A52C]"
                     />
@@ -48,7 +70,9 @@ export default function Posts() {
                   {isLoading ? (
                     <Skeleton width={100} height={20} />
                   ) : (
-                    <>{data.name}</>
+                    <>
+                    {user.username}
+                    </>
                   )}
                 </span>
                 {isLoading ? (
@@ -56,6 +80,7 @@ export default function Posts() {
                 ) : (
                   <MdVerified className="text-[#59A52C]" />
                 )}
+                <span className="text-gray-500">{format(posts.createdAt)}</span>
               </div>
 
               {isLoading ? (
@@ -69,21 +94,24 @@ export default function Posts() {
             {isLoading ? (
               <Skeleton width="100%" height={350} className="rounded-md" />
             ) : (
-              <img
-                src={data.image || ""}
+              <div className="flex flex-col gap-y-2">
+                <p>{posts.desc}</p>
+                <img
+                src={posts.image || ""}
                 alt=""
                 className={`h-[350px] w-full object-cover rounded-md ${
-                  data.image ? "" : "hidden"
+                  posts.image ? "" : "hidden"
                 }`}
               />
+              </div>
             )}
-            <p>{data.quotes}</p>
+            <p>{posts.quotes}</p>
             <span
               className={`${
-                isLoading || !data.from ? "text-gray-300 font-mono" : ""
+                isLoading || !posts.from ? "text-gray-300 font-mono" : ""
               }`}
             >
-              {isLoading ? <Skeleton width={100} height={20} /> : data.from}
+              {isLoading ? <Skeleton width={100} height={20} /> : posts.from}
             </span>
 
             <div className="flex justify-start items-center mt-3 border-b-[1px] pb-2 border-gray-800">
@@ -99,17 +127,7 @@ export default function Posts() {
                   <>
                     <img
                       className="inline-block h-[20px] w-[20px] rounded-full ring-1 ring-white"
-                      src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                      alt=""
-                    />
-                    <img
-                      className="inline-block h-[20px] w-[20px] rounded-full ring-1 ring-white"
-                      src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                      alt=""
-                    />
-                    <img
-                      className="inline-block h-[20px] w-[20px] rounded-full ring-1 ring-white"
-                      src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80"
+                      src={user.profilePicure || noProfile}
                       alt=""
                     />
                   </>
@@ -120,7 +138,7 @@ export default function Posts() {
                   <Skeleton width={20} height={20} />
                 ) : (
                   <a href="#" className="text-blue-500">
-                    +198 others
+                    {react} {react === 1 ? 'other' : 'others'}
                   </a>
                 )}
               </div>
@@ -131,7 +149,12 @@ export default function Posts() {
                 <Skeleton width={20} height={20} />
               ) : (
                 <div className="flex justify-center items-center gap-x-2">
-                  <BsArrowThroughHeart className="text-2xl text-gray-400" />
+                  <span onClick={reactHandler} className="cursor-pointer">
+                      {isReact 
+                      ?  <BsFillArrowThroughHeartFill className="text-red-500 text-2xl mr-2" /> 
+                      : <BsArrowThroughHeart className="text-2xl text-gray-400 cursor-pointer"/>
+                      }
+                  </span>
                   <span className="text-zinc-500 font-mono">React</span>
                 </div>
               )}
@@ -147,7 +170,6 @@ export default function Posts() {
               )}
             </div>
           </div>
-        ))}
       </div>
     </div>
   );

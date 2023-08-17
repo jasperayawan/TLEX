@@ -96,7 +96,7 @@ router.put('/:id/unfollow', async (req, res) => {
 
 
 
-router.get('/geUser/:id', async (req, res) => {
+router.get('/getUser/:id', async (req, res) => {
     try{
         const user = await User.findById(req.params.id)
         const {password, updatedAt, ...others} = user._doc

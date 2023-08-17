@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import Posts from '../postContent/post'
 import Modals from './openModal'
 import RightAbout from '../rightContentAbout/RightAbout'
 import { Jasper } from '../../helper/dummy_image/dummyImage'
@@ -17,6 +16,7 @@ import {
     Button,
     useDisclosure,
   } from '@chakra-ui/react'
+import Feed from '../feed/feed'
 
 export default function Hero(){
      const [openModal, setOpenModal] = useState(false)
@@ -68,7 +68,7 @@ export default function Hero(){
                         </div>
                     </div>
                 </div>
-                    <Posts />
+                    <Feed />
            </div>
            <RightAbout/>
         </div>

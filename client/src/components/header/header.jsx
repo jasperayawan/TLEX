@@ -27,15 +27,18 @@ export default function Header(){
     setLoading(true);
 
     try {
-       const response = await Axios.post('http://localhost:8080/api/user/logout', null);
-      // Perform any additional client-side logout actions
-      setLoading(false);
+       const response = await Axios.post('http://localhost:3872/api/auth/logout', null);
+        setLoading(false);
+
       if(response.status === 200){
+
         localStorage.removeItem('user')
         localStorage.removeItem('email')
         localStorage.removeItem('password')
+        localStorage.removeItem('token')
 
         Navigate('/')
+        
         toast({
             title: 'Logout successfully.',
             description: "We've created your account for you.",

@@ -68,7 +68,7 @@ router.post('/login', async (req, res) => {
 
     // Create and sign a JWT
     const token = jwt.sign({ userId: user._id }, process.env.secretKey, { expiresIn: '1h' });
-
+    res.setHeader('Authorization', `Bearer ${token}`);
     res.status(200).json({ user, token })
   }
   catch(error){
@@ -77,7 +77,9 @@ router.post('/login', async (req, res) => {
 })
 
 
-router.post('/logout', requireAuth, async (req, res) => {
+router.post('/logout', async (req, res) => {
+  const token = req.headers.authorization;
+
   try {
     // You can add additional logic here if needed (e.g., token invalidation)
     res.status(200).json({ message: 'Logout successful' });

@@ -3,8 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import Axios from "axios";
 import { useRef, useState } from "react";
 import { useToast } from '@chakra-ui/react'
+import { useDispatch, useSelector } from 'react-redux'
+import { login } from '../../state/reducers/user'
 
 export default function Login() {
+  const dispatch = useDispatch();
   const email = useRef();
   const password = useRef();
   const Navigate = useNavigate()
@@ -13,21 +16,23 @@ export default function Login() {
   const handleRegistration = async (e) => {
     e.preventDefault();
 
-    localStorage.setItem('email', email);
-    localStorage.setItem('password', password);
+    localStorage.setItem('email', email.current.value);
+    localStorage.setItem('password', password.current.value);
 
     try{
        const user = {
         email: email.current.value,
         password: password.current.value,
        }
-        const response = await Axios.post('http://localhost:3872/api/auth/login', 
-        user
-       )
+
+        const response = await Axios.post('http://localhost:3872/api/auth/login',user)
+
+        // const token = response.headers.authorization.split(' ')[1];
+        // localStorage.setItem('token', token);
 
         if(response.status === 200){
-            Navigate('/index')
-            toast({
+          Navigate('/index')
+              toast({
               title: 'Login successfully!',
               description: "We've created your account for you.",
               status: 'success',

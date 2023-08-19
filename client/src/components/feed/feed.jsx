@@ -8,8 +8,10 @@ export default function Feed(){
     useEffect(() => {
         const getPost = async () => {
           try{
-            const response = await Axios.get('http://localhost:3872/api/posts/timeline/64db471e7c1999e39f922bcf')
-            setPosts(response.data)
+            const response = await Axios.get('http://localhost:3872/api/posts/timeline/getPost');
+            setPosts(response.data.sort((data1, data2) => {
+              return new Date(data2.createdAt) - new Date(data1.createdAt);
+            }))
           }
           catch(error){
             console.log(error)
@@ -18,7 +20,6 @@ export default function Feed(){
         getPost();
       },[])
 
-   
 
     return(
         <div>

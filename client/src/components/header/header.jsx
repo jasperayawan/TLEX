@@ -38,6 +38,7 @@ export default function Header(){
         localStorage.removeItem('email')
         localStorage.removeItem('password')
         localStorage.removeItem('token')
+        localStorage.removeItem('id')
 
         Navigate('/')
         

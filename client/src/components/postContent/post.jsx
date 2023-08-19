@@ -23,9 +23,9 @@ export default function Posts({ posts }) {
   const [react, setReact] = useState(posts.reacts.length);
   const [isReact, setIsReact] = useState(false);
   const [user, setUser] = useState({})
-  const PublicFolder = IMAGE_API;
   const users = useSelector((ID) => ID.user.username)
   
+  const PublicFolder = "http://localhost:3872/images/";
   const currentUserId = localStorage.getItem('id')
 
   useEffect(() => {
@@ -77,7 +77,7 @@ export default function Posts({ posts }) {
                     <Skeleton width={40} height={20} />
                   ) : (
                     <img
-                      src={PublicFolder + posts.profilePicure && noProfile}
+                      src={user.profilePicture}
                       alt=""
                       className="w-[40px] h-[40px] object-cover rounded-full ring-2 ring-[#59A52C]"
                     />
@@ -114,9 +114,9 @@ export default function Posts({ posts }) {
               <div className="flex flex-col gap-y-2">
                 <p>{posts.desc}</p>
                 <img
-                src={posts.img}
-                alt=""
-                className={`h-[350px] w-full object-cover rounded-md ${
+                  src={PublicFolder + posts.img}
+                  alt=""
+                  className={`h-[350px] w-full rounded-md object-scale-down bg-black ${
                   posts.img ? "" : "hidden"
                 }`}
               />

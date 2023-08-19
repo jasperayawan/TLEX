@@ -16,6 +16,7 @@ import {format} from 'timeago.js'
 import Axios from 'axios'
 
 import { Post, IMAGE_API } from "../../api/api_list";
+import { useSelector } from "react-redux";
 
 export default function Posts({ posts }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -23,7 +24,13 @@ export default function Posts({ posts }) {
   const [isReact, setIsReact] = useState(false);
   const [user, setUser] = useState({})
   const PublicFolder = IMAGE_API;
+  const users = useSelector((ID) => ID.user.username)
   
+  const currentUserId = localStorage.getItem('id')
+
+  useEffect(() => {
+    setIsReact(posts.reacts.includes(currentUserId))
+  },[currentUserId, posts.reacts])
 
   useEffect(() => {
     // Simulate loading delay
@@ -46,7 +53,15 @@ export default function Posts({ posts }) {
   },[posts.userId])
 
   
-  const reactHandler = () => {
+  const reactHandler = async () => {
+    try{
+     Axios.put('http://localhost:3872/api/posts/'+posts._id+"/react", {
+       userId: currentUserId
+     })
+    }
+    catch(error){
+      console.log(error)
+    }
     setReact(isReact ? react - 1 : react + 1);
     setIsReact(!isReact);
   }

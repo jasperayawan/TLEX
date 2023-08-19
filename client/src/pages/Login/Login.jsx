@@ -31,6 +31,7 @@ export default function Login() {
           localStorage.setItem('token', token)
           localStorage.setItem('user', response.data.user.username)
           localStorage.setItem('email', response.data.user.email)
+          localStorage.setItem('id', response.data.user._id)
           dispatch(login({ username:  response.data.user.username, email: response.data.user.email}))
 
           Navigate('/index')

@@ -115,4 +115,25 @@ router.get('/', async (req, res) => {
     }
 })
 
+router.get('/getAllUsers', async (req, res) => {
+    try {
+        const users = await User.find({}, '-password -updatedAt -createdAt');
+        
+        if (users.length === 0) {
+            res.status(404).json({ message: "No users found." });
+        } else {
+            const sanitizedUsers = users.map(user => {
+                const { ...others } = user.toObject();
+                return others;
+            });
+            res.status(200).json(sanitizedUsers);
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error." });
+    }
+});
+
+
+
 module.exports = router;

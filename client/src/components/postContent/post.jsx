@@ -99,10 +99,10 @@ export default function Posts({ posts }) {
               <div className="flex flex-col gap-y-2">
                 <p>{posts.desc}</p>
                 <img
-                src={posts.image || ""}
+                src={posts.img}
                 alt=""
                 className={`h-[350px] w-full object-cover rounded-md ${
-                  posts.image ? "" : "hidden"
+                  posts.img ? "" : "hidden"
                 }`}
               />
               </div>

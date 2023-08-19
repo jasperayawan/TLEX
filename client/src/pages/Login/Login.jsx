@@ -5,7 +5,7 @@ import { useRef } from "react";
 import { useToast } from '@chakra-ui/react'
 import { useDispatch } from 'react-redux'
 import { login } from '../../state/reducers/user'
-
+import { LOGIN_API } from "../../api/api_list";
 export default function Login() {
   const dispatch = useDispatch();
   const email = useRef();
@@ -16,16 +16,13 @@ export default function Login() {
   const handleRegistration = async (e) => {
     e.preventDefault();
 
-    localStorage.setItem('email', email.current.value);
-    localStorage.setItem('password', password.current.value);
-
     try{
        const user = {
         email: email.current.value,
         password: password.current.value,
        }
 
-        const response = await Axios.post('http://localhost:3872/api/auth/login',user)
+        const response = await Axios.post(LOGIN_API,user)
         
         const token = response.data.token
 
@@ -33,6 +30,7 @@ export default function Login() {
 
           localStorage.setItem('token', token)
           localStorage.setItem('user', response.data.user.username)
+          localStorage.setItem('email', response.data.user.email)
           dispatch(login({ username:  response.data.user.username, email: response.data.user.email}))
 
           Navigate('/index')

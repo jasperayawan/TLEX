@@ -4,6 +4,8 @@ import Axios from "axios";
 import { useRef, useState } from "react";
 import { useToast } from '@chakra-ui/react'
 
+import { REGISTER_API } from "../../api/api_list";
+
 export default function Registration() {
   const username = useRef();
   const email = useRef();
@@ -27,7 +29,7 @@ export default function Registration() {
 
       try {
         const response = await Axios.post(
-          "http://localhost:3872/api/auth/register", user);
+          REGISTER_API, user);
   
         if (response.status === 200) {
           toast({

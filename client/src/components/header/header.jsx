@@ -17,6 +17,8 @@ import {
   } from '@chakra-ui/react'
 import { useState } from 'react'
 
+import { LOGOUT_API } from '../../api/api_list';
+
 export default function Header(){
     const [toggleMenu, setToggleMenu] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -27,7 +29,7 @@ export default function Header(){
     setLoading(true);
 
     try {
-       const response = await Axios.post('http://localhost:3872/api/auth/logout', null);
+       const response = await Axios.post(LOGOUT_API, null);
         setLoading(false);
 
       if(response.status === 200){

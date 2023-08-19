@@ -58,17 +58,14 @@ export default function Login() {
     }
   };
   return (
-    <div className="min-h-screen text-white bg-gradient-to-tr from-[#040814] to-[#191d2b] flex overflow-auto">
-      <div className="w-1/2 sticky top-0">
-        <img src={church} alt="" className="object-cover h-full w-full" />
-      </div>
-      <div className="w-1/2 h-screen flex justify-center items-center p-20">
-        <div className="flex flex-col shadow-2xl w-full mx-auto max-w-lg px-4 py-4 rounded-md">
+    <div className="min-h-screen text-white bg-[#fff] flex overflow-auto">
+      <div className="mx-auto h-screen flex justify-center items-center p-20">
+        <div className="flex flex-col w-full mx-auto max-w-lg px-4 py-4 rounded-md">
           <div className="flex flex-col gap-y-2 mb-4">
-            <h1 className="text-5xl font-bold text-[#59A52C] text-center">
+            <h1 className="text-5xl font-bold text-black text-center">
               Login!
             </h1>
-            <span className="text-md tracking-wider text-center text-[#59A52C]">
+            <span className="text-md tracking-wider text-center text-black">
               Welcome back to Christ community!
             </span>
           </div>
@@ -83,7 +80,7 @@ export default function Login() {
                   ref={email}
                   type="text"
                   placeholder="Email"
-                  className="bg-gray-700 text-gray-500 px-4 py-2 pr-20 rounded-md"
+                  className="ring-1 ring-zinc-900 text-gray-500 px-4 py-2 pr-20 rounded-md"
                 />
               </div>
               <div className="flex justify-end">
@@ -99,13 +96,13 @@ export default function Login() {
                   ref={password}
                   type="password"
                   placeholder="Enter Passowrd"
-                  className="bg-gray-700 text-gray-500 px-4 py-2 pr-20 rounded-md"
+                  className="ring-1 ring-zinc-900 text-gray-500 px-4 py-2 pr-20 rounded-md"
                 />
               </div>
               <div className="flex justify-end">
-                <span>
+                <span className="text-black">
                   Don't have an account?{" "}
-                  <Link to="/register" className="text-[#59A52C]">
+                  <Link to="/register" className="text-[#59A52C] font-bold">
                     Sign up now!
                   </Link>
                 </span>
@@ -113,7 +110,7 @@ export default function Login() {
               <div className="flex justify-center items-center mt-4">
                 <button
                   type="submit"
-                  className="px-10 py-2 rounded-md bg-[#59A52C]"
+                  className="px-10 py-2 rounded-md w-full bg-black"
                 >
                   Login
                 </button>

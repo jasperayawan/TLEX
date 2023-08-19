@@ -15,13 +15,15 @@ import { useEffect, useState } from "react";
 import {format} from 'timeago.js'
 import Axios from 'axios'
 
+import { Post, IMAGE_API } from "../../api/api_list";
+
 export default function Posts({ posts }) {
   const [isLoading, setIsLoading] = useState(true);
   const [react, setReact] = useState(posts.reacts.length);
   const [isReact, setIsReact] = useState(false);
   const [user, setUser] = useState({})
-  // const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-  const PF = "http://localhost:3872/assets/"
+  const PublicFolder = IMAGE_API;
+  
 
   useEffect(() => {
     // Simulate loading delay
@@ -33,7 +35,7 @@ export default function Posts({ posts }) {
   useEffect(() => {
     const getUser = async () => {
       try{
-        const response = await Axios.get(`http://localhost:3872/api/users?userId=${posts.userId}`)
+        const response = await Axios.get(Post + `/users?userId=${posts.userId}`)
         setUser(response.data)
       }
       catch(error){
@@ -50,9 +52,9 @@ export default function Posts({ posts }) {
   }
 
   return (
-    <div className="text-white px-10 py-5">
+    <div className="text-black px-10 py-5">
       <div className="flex flex-col">
-      <div className="mb-4 px-2 bg-[#070d1f] rounded-lg py-2 shadow-lg">
+      <div className="mb-4 px-2 ring-1 ring-zinc-300 rounded-lg py-2">
             <div className="flex justify-between items-center mb-3">
               <div className="flex justify-center items-center gap-x-3">
                 <Link>
@@ -60,13 +62,13 @@ export default function Posts({ posts }) {
                     <Skeleton width={40} height={20} />
                   ) : (
                     <img
-                      src={posts.profilePicure || noProfile}
+                      src={PublicFolder + posts.profilePicure && noProfile}
                       alt=""
                       className="w-[40px] h-[40px] object-cover rounded-full ring-2 ring-[#59A52C]"
                     />
                   )}
                 </Link>
-                <span>
+                <span className="text-black font-bold">
                   {isLoading ? (
                     <Skeleton width={100} height={20} />
                   ) : (
@@ -78,7 +80,7 @@ export default function Posts({ posts }) {
                 {isLoading ? (
                   <Skeleton width={20} height={20} />
                 ) : (
-                  <MdVerified className="text-[#59A52C]" />
+                  <MdVerified className="text-indigo-500" />
                 )}
                 <span className="text-gray-500">{format(posts.createdAt)}</span>
               </div>
@@ -114,7 +116,7 @@ export default function Posts({ posts }) {
               {isLoading ? <Skeleton width={100} height={20} /> : posts.from}
             </span>
 
-            <div className="flex justify-start items-center mt-3 border-b-[1px] pb-2 border-gray-800">
+            <div className="flex justify-start items-center mt-3 border-b-[1px] pb-2 border-gray-300">
               {isLoading ? (
                 <Skeleton width={20} height={20} />
               ) : (

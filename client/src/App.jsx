@@ -5,7 +5,8 @@ import './App.css'
 function App() {
 
   return (
-    <div className='bg-[#040814]'>
+    <div className='bg-[#fff]'>
+      {/* [#040814] */}
       <Header />
       <Outlet/>
     </div>

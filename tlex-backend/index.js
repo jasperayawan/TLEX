@@ -13,6 +13,9 @@ const postRoute = require('../tlex-backend/routes/post')
 
 dotenv.config();
 
+const multer = require("multer");
+const path = require("path");
+
 //middlewares
 app.use(cors());
 app.use(express.json());
@@ -26,6 +29,24 @@ port = process.env.PORT;
 app.use('/api/auth', authRoute);
 app.use('/api/users', userRoute);
 app.use('/api/posts', postRoute);
+
+
+app.use('/images', express.static(path.join(__dirname,"/images")))
+
+const storage = multer.diskStorage({
+  destination:(req,file,callback) => {
+    callback(null, "images")
+  },filename:(req,file,callback) => {
+    callback(null, req.body.name);
+  },
+})
+
+const upload = multer({storage: storage});
+
+app.post('/api/upload', upload.single('file'),(req,res) => {
+  res.status(200).json("File has been uploaded")
+})
+
 
 
 app.listen(port, () => {

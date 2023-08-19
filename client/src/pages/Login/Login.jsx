@@ -1,9 +1,9 @@
 import { church } from "../../helper/dummy_image/dummyImage";
 import { Link, useNavigate } from "react-router-dom";
 import Axios from "axios";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useToast } from '@chakra-ui/react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { login } from '../../state/reducers/user'
 
 export default function Login() {
@@ -26,11 +26,15 @@ export default function Login() {
        }
 
         const response = await Axios.post('http://localhost:3872/api/auth/login',user)
-
-        // const token = response.headers.authorization.split(' ')[1];
-        // localStorage.setItem('token', token);
+        
+        const token = response.data.token
 
         if(response.status === 200){
+
+          localStorage.setItem('token', token)
+          localStorage.setItem('user', response.data.user.username)
+          dispatch(login({ username:  response.data.user.username, email: response.data.user.email}))
+
           Navigate('/index')
               toast({
               title: 'Login successfully!',

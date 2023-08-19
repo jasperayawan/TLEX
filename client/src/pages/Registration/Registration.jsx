@@ -118,11 +118,19 @@ export default function Registration() {
                     ref={confirmPassword}
                     minLength="6"
                     type="password"
-                    placeholder="Enter Passowrd"
+                    placeholder="Confirm Password"
                     required
                     className="bg-gray-700 text-gray-500 px-4 py-2 pr-20 rounded-md"
                   />
                 </div>
+                <div className="flex justify-end">
+                <span>
+                  Already have an account?{" "}
+                  <Link to="/" className="text-[#59A52C]">
+                    login!
+                  </Link>
+                </span>
+              </div>
                 <div className="flex justify-center items-center mt-4">
                   <button
                     type="submit"

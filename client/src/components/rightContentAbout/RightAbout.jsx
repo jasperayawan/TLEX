@@ -4,9 +4,11 @@ import { MdVerified } from 'react-icons/md'
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useEffect, useState } from "react";
+import { useSelector } from 'react-redux';
 
 export default function RightAbout(){
     const [isLoading, setIsLoading] = useState(true);
+    const username = useSelector((usern) => usern.user.username)
 
     useEffect(() => {
         // Simulate loading delay
@@ -26,7 +28,7 @@ export default function RightAbout(){
                     {isLoading ? (
                         <Skeleton width={40} height={20}/>
                     ) : (
-                        <h2 className='flex'>@Jasper  <MdVerified className='text-[#59A52C]'/></h2>
+                        <h2 className='flex'>{username}  <MdVerified className='text-[#59A52C]'/></h2>
                     )}
                     {isLoading ? (
                         <Skeleton width={250} height={20} count={3}/>

@@ -62,43 +62,24 @@ export default function Hero() {
   return (
     <div className="mx-auto max-w-[1600px] flex flex-col md:flex-row text-white">
       <OnlineUsers />
-      <Modals openModal={openModal} setOpenModal={setOpenModal} />
-
       <div className="w-1/2 min-h-screen overflow-y-auto">
-        <Modal isOpen={isOpen} onClose={onClose}>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Modal Title</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody></ModalBody>
-
-            <ModalFooter>
-              <button
-                onClick={onClose}
-                className="bg-[#59A52C] text-white px-5 py-2 rounded-3xl"
-              >
-                Close
-              </button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-        <div className="px-10 py-2 pt-5">
+        <div className="px-10 pt-5">
           <form onSubmit={postHandling}>
-          <div className="flex justify-between items-center py-4 px-2">
-            <div className="flex flex-row justify-start items-center gap-x-5 w-full">
+          <div className="flex justify-between gap-x-4 pt-4 px-2">
+            <div className="flex flex-row justify-start gap-x-5 w-full">
               <img
                 src={Jasper}
                 alt=""
                 className="w-[50px] h-[50px] rounded-full"
               />
-              <div className="flex flex-col w-full">
-                <input
-                  type="text"
+              <div className="flex flex-col gap-y-3 w-full">
+                <textarea 
                   value={desc}
                   onChange={(e) => setDesc(e.target.value)}
-                  placeholder="Create a post..."
-                  className="outline-none mb-2 text-black"
-                />
+                  name="" 
+                  id="" 
+                  cols="30" 
+                  className="ring-1 ring-zinc-500 rounded-md pl-2 text-black"></textarea>
                 <label htmlFor="file" className="">
                   <BiPhotoAlbum className="text-black cursor-pointer" fontSize={20}/>
                   <input style={{ display: "none" }} type="file" id="file" accept=".png,.jpeg,.jpg" onChange={(e) => setFile(e.target.files[0])}/>

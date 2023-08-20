@@ -22,6 +22,7 @@ export default function Profile(){
         getUser();
     },[])
 
+    console.log(user)
     return(
         <div className="text-black bg-white min-h-screen">
             <Header />

@@ -10,12 +10,13 @@ import {
     MenuButton,
     MenuList,
     MenuItem,
+    Button,
     MenuItemOption,
     MenuGroup,
     MenuOptionGroup,
     MenuDivider,
   } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { LOGOUT_API } from '../../api/api_list';
 
@@ -23,8 +24,11 @@ export default function Header(){
     const [toggleMenu, setToggleMenu] = useState(false);
     const [loading, setLoading] = useState(false);
     const Navigate = useNavigate();
+    const [user, setUser] = useState({})
     const toast = useToast()
-
+    const PublicFolder = "http://localhost:3872/images/";
+    const userFromState = localStorage.getItem('user')
+    
   const handleLogout = async () => {
     setLoading(true);
 
@@ -64,6 +68,20 @@ export default function Header(){
       };
     
 
+      
+  useEffect(() => {
+    const getUser = async () => {
+        try{
+            const response = await Axios.get(`http://localhost:3872/api/users?username=${userFromState}`)
+            setUser(response.data);
+        }
+        catch(error){
+            console.log(error)
+        }
+    };
+    getUser();
+    },[])
+
     return(
         <div className="sticky top-0 z-20 flex h-20 w-full items-center justify-center px-5 xs:px-[50px] xl:px-0 shadow-md bg-white">
             <nav className='mx-auto py-2 flex justify-between items-center w-full px-4 lg:px-10'>
@@ -84,7 +102,7 @@ export default function Header(){
                     <MdNotifications className='text-black text-2xl'/>
                     <Menu>
                         <MenuButton>
-                            <img src={Jasper} alt="profile" className='w-[50px] h-[50px] rounded-full border-2 border-[#59A52C]'/>
+                            <img src={PublicFolder + user.profilePicture} alt="profile" className='w-[50px] h-[50px] rounded-full border-2 border-[#59A52C]'/>
                         </MenuButton>
                         <MenuList bg='black'>
                             <MenuItem bg='black'>
@@ -95,15 +113,14 @@ export default function Header(){
                                 Profile
                             </Link>
                             </MenuItem>
-                            <MenuItem bg='black'>
-                            <button
-                                onClick={handleLogout}
-                                disabled={loading}
-                                className="hover:bg-[#59A52C] hover:text-white duration-200 w-full uppercase text-gray-400 border-2 border-black font-semibold px-4 py-2.5 rounded-md text-sm" 
-                                >
-                            {loading ? 'Logging out...' : 'Logout'}
-                            </button>
-                            </MenuItem>
+                            <MenuList bg='black'>
+                                <Button 
+                                    onClick={handleLogout}
+                                    disabled={loading}
+                                    colorScheme='black'>
+                                    {loading ? 'Logging out...' : 'Logout'}
+                                </Button>
+                            </MenuList>
                         </MenuList>
                     </Menu>
                 </div>

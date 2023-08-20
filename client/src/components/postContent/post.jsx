@@ -66,6 +66,7 @@ export default function Posts({ posts }) {
     setIsReact(!isReact);
   }
 
+  console.log()
   return (
     <div className="text-black px-10 py-5">
       <div className="flex flex-col">

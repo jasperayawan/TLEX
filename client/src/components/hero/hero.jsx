@@ -1,27 +1,11 @@
 import { useEffect, useState } from "react";
-import Modals from "./openModal";
 import RightAbout from "../rightContentAbout/RightAbout";
-import { Jasper } from "../../helper/dummy_image/dummyImage";
 import { BiPhotoAlbum } from "react-icons/bi";
 import OnlineUsers from "../onlineUsers/OnlineUser";
-
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  Button,
-  useDisclosure,
-} from "@chakra-ui/react";
 import Feed from "../feed/feed";
 import Axios from 'axios'
 
 export default function Hero() {
-  const [openModal, setOpenModal] = useState(false);
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [desc, setDesc] = useState('')
   const [post, setPost] = useState([]);
   const [file, setFile] = useState(null)
@@ -31,6 +15,8 @@ export default function Hero() {
   const userFromState = localStorage.getItem('user')
   const PublicFolder = "http://localhost:3872/images/";
 
+  const token = localStorage.getItem('token')
+
   const postHandling = async (e) => {
     e.preventDefault();
 
@@ -38,24 +24,28 @@ export default function Hero() {
       userId: getCurrentUserId,
       desc: desc,
     }
+
     if(file){
       const data = new FormData();
       const fileName = Date.now() + file.name;
       data.append('name', fileName)
       data.append('file',file)
       newPost.img = fileName;
+
       try{
-        await Axios.post('http://localhost:3872/api/upload', data)
+        const res = await Axios.post('http://localhost:3872/api/upload', data)
+        console.log(res.data)
         window.location.reload();
       }
       catch(error){
         console.log(error)
       }
     }
+    
     try{
-      const response = Axios.post('http://localhost:3872/api/posts', newPost)
-      window.location.reload();
+      const response = await Axios.post('http://localhost:3872/api/posts', newPost)
       console.log(response.data)
+      window.location.reload();
     }
     catch(error){
       console.log(error)
@@ -84,11 +74,13 @@ export default function Hero() {
           <form onSubmit={postHandling}>
           <div className="flex justify-between gap-x-4 pt-4 px-2">
             <div className="flex flex-row justify-start gap-x-5 w-full">
-              <img
-                src={PublicFolder + user.profilePicture}
-                alt=""
-                className="w-[50px] h-[50px] rounded-full"
-              />
+              {user.profilePicture && (
+                  <img
+                    src={PublicFolder + user.profilePicture}
+                    alt=""
+                    className="w-[50px] h-[50px] rounded-full object-cover"
+                  />
+                )}
               <div className="flex flex-col gap-y-3 w-full">
                 <textarea 
                   value={desc}

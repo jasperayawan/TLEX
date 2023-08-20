@@ -12,7 +12,7 @@ export default function RightAbout(){
     const [isLoading, setIsLoading] = useState(true);
     const username = useSelector((usern) => usern.user.username)
     const PublicFolder = IMAGE_API;
-
+    
     useEffect(() => {
         // Simulate loading delay
         setTimeout(() => {

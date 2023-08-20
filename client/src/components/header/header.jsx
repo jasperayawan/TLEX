@@ -67,7 +67,11 @@ export default function Header(){
     return(
         <div className="sticky top-0 z-20 flex h-20 w-full items-center justify-center px-5 xs:px-[50px] xl:px-0 shadow-md bg-white">
             <nav className='mx-auto py-2 flex justify-between items-center w-full px-4 lg:px-10'>
-                <div className="logo font-bold text-[30px] text-black">TLEX</div>
+                <div className="logo font-bold text-[30px] text-black">
+                    <Link to='/index'>
+                     TLEX
+                    </Link>
+                </div>
                 <label className="w-2/6 relative block">
                     <span className="sr-only">Search</span>
                     <span className="absolute inset-y-0 left-0 flex items-center pl-2">
@@ -85,6 +89,7 @@ export default function Header(){
                         <MenuList bg='black'>
                             <MenuItem bg='black'>
                                 <Link
+                                to='/profile'
                                 className="w-full text-center text-sm font-semibold hover:text-[#59A52C] text-gray-400 mb-3"
                             >
                                 Profile

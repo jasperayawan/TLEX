@@ -1,55 +1,72 @@
-import { church } from "../../helper/dummy_image/dummyImage";
 import { Link, useNavigate } from "react-router-dom";
 import Axios from "axios";
-import { useRef, useState } from "react";
 import { useToast } from "@chakra-ui/react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 import { REGISTER_API } from "../../api/api_list";
 
 export default function Registration() {
-	const username = useRef();
-	const email = useRef();
-	const password = useRef();
-	const confirmPassword = useRef();
 	const Navigate = useNavigate();
 	const toast = useToast();
 
-	const handleRegistration = async (e) => {
-		e.preventDefault();
+	const schema = yup.object().shape({
+		username: yup
+			.string()
+			.required("Required")
+			.min(3, "Username is too short - should be 3 chars minimum."),
+		email: yup.string().required("Required").email("Email must be valid"),
+		password: yup
+			.string()
+			.required("Required")
+			.min(8, "Password is too short - should be 8 chars minimum.")
+			.max(20),
+		confirmPassword: yup
+			.string()
+			.required("Required")
+			.oneOf([yup.ref("password")], "Your passwords do not match."),
+	});
 
-		if (confirmPassword.current.value !== password.current.value) {
-			password.current.setCustomValidity("Password don't match!");
-		} else {
-			const user = {
-				username: username.current.value,
-				email: email.current.value,
-				password: password.current.value,
-			};
+	const {
+		register,
+		handleSubmit,
+		reset,
+		formState: { errors },
+	} = useForm({
+		resolver: yupResolver(schema),
+	});
 
-			try {
-				const response = await Axios.post(REGISTER_API, user);
+	const handleRegistration = async (values) => {
+		const user = {
+			username: values.username,
+			email: values.email,
+			password: values.password,
+		};
 
-				if (response.status === 200) {
-					toast({
-						title: "Account successfully created!",
-						description: "We've created your account for you.",
-						status: "success",
-						duration: 3000,
-						isClosable: true,
-						position: "top-right",
-					});
-					Navigate("/");
-				}
-			} catch (error) {
+		try {
+			const response = await Axios.post(REGISTER_API, user);
+
+			if (response.status === 200) {
 				toast({
-					title: "Failed creating an account!",
-					description: "Please check your email and password.",
-					status: "error",
+					title: "Account successfully created!",
+					description: "We've created your account for you.",
+					status: "success",
 					duration: 3000,
 					isClosable: true,
 					position: "top-right",
 				});
+				Navigate("/");
 			}
+		} catch (error) {
+			toast({
+				title: "Failed creating an account!",
+				description: "Please check your email and password.",
+				status: "error",
+				duration: 3000,
+				isClosable: true,
+				position: "top-right",
+			});
 		}
 	};
 	return (
@@ -66,7 +83,10 @@ export default function Registration() {
 							</span>
 						</div>
 
-						<form onSubmit={handleRegistration}>
+						<form
+							onSubmit={handleSubmit(handleRegistration)}
+							noValidate
+						>
 							<div className="flex flex-col gap-y-2">
 								<div className="flex flex-col gap-x-10 justify-start">
 									<label
@@ -76,12 +96,16 @@ export default function Registration() {
 										username
 									</label>
 									<input
-										ref={username}
 										type="text"
 										placeholder="username"
-										required
 										className="ring-1 ring-zinc-800 text-gray-500 px-4 py-2 pr-20 rounded-md"
+										{...register("username")}
 									/>
+									{errors.username && (
+										<p className="text-red-500">
+											{errors.username.message?.toString()}
+										</p>
+									)}
 								</div>
 								<div className="flex flex-col gap-x-10 justify-start">
 									<label
@@ -91,12 +115,17 @@ export default function Registration() {
 										Email
 									</label>
 									<input
-										ref={email}
-										type="text"
+										type="email"
 										placeholder="Email"
 										required
 										className="ring-1 ring-zinc-800 text-gray-500 px-4 py-2 pr-20 rounded-md"
+										{...register("email")}
 									/>
+									{errors.email && (
+										<p className="text-red-500">
+											{errors.email.message?.toString()}
+										</p>
+									)}
 								</div>
 								<div className="flex flex-col gap-x-10 justify-start">
 									<label
@@ -106,13 +135,18 @@ export default function Registration() {
 										Password
 									</label>
 									<input
-										ref={password}
 										minLength="6"
 										type="password"
-										placeholder="Enter Passowrd"
+										placeholder="Enter Password"
 										required
 										className="ring-1 ring-zinc-800 text-gray-500 px-4 py-2 pr-20 rounded-md"
+										{...register("password")}
 									/>
+									{errors.password && (
+										<p className="text-red-500">
+											{errors.password.message?.toString()}
+										</p>
+									)}
 								</div>
 								<div className="flex flex-col gap-x-10 justify-start">
 									<label
@@ -122,13 +156,16 @@ export default function Registration() {
 										Confirm Password
 									</label>
 									<input
-										ref={confirmPassword}
-										minLength="6"
 										type="password"
 										placeholder="Confirm Password"
-										required
 										className="ring-1 ring-zinc-800 text-gray-500 px-4 py-2 pr-20 rounded-md"
+										{...register("confirmPassword")}
 									/>
+									{errors.confirmPassword && (
+										<p className="text-red-500">
+											{errors.confirmPassword.message?.toString()}
+										</p>
+									)}
 								</div>
 								<div className="flex justify-end">
 									<span className="text-black">

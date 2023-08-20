@@ -77,7 +77,7 @@ export default function Posts({ posts }) {
                     <Skeleton width={40} height={20} />
                   ) : (
                     <img
-                      src={user.profilePicture}
+                      src={PublicFolder + user.profilePicture}
                       alt=""
                       className="w-[40px] h-[40px] object-cover rounded-full ring-2 ring-[#59A52C]"
                     />

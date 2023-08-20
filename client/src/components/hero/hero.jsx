@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modals from "./openModal";
 import RightAbout from "../rightContentAbout/RightAbout";
 import { Jasper } from "../../helper/dummy_image/dummyImage";
@@ -25,8 +25,11 @@ export default function Hero() {
   const [desc, setDesc] = useState('')
   const [post, setPost] = useState([]);
   const [file, setFile] = useState(null)
+  const [user, setUser] = useState({})
 
   const getCurrentUserId = localStorage.getItem('id')
+  const userFromState = localStorage.getItem('user')
+  const PublicFolder = "http://localhost:3872/images/";
 
   const postHandling = async (e) => {
     e.preventDefault();
@@ -59,6 +62,20 @@ export default function Hero() {
     }
   }
 
+  useEffect(() => {
+    const getUser = async () => {
+        try{
+            const response = await Axios.get(`http://localhost:3872/api/users?username=${userFromState}`)
+            setUser(response.data);
+        }
+        catch(error){
+            console.log(error)
+        }
+    };
+    getUser();
+},[])
+
+
   return (
     <div className="mx-auto max-w-[1600px] flex flex-col md:flex-row text-white">
       <OnlineUsers />
@@ -68,7 +85,7 @@ export default function Hero() {
           <div className="flex justify-between gap-x-4 pt-4 px-2">
             <div className="flex flex-row justify-start gap-x-5 w-full">
               <img
-                src={Jasper}
+                src={PublicFolder + user.profilePicture}
                 alt=""
                 className="w-[50px] h-[50px] rounded-full"
               />
@@ -101,7 +118,7 @@ export default function Hero() {
         </div>
         <Feed />
       </div>
-      <RightAbout />
+      <RightAbout user={user}/>
     </div>
   );
 }

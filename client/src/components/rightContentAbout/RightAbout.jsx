@@ -8,10 +8,10 @@ import { useSelector } from 'react-redux';
 
 import { IMAGE_API } from '../../api/api_list';
 
-export default function RightAbout(){
+export default function RightAbout({ user }){
     const [isLoading, setIsLoading] = useState(true);
     const username = useSelector((usern) => usern.user.username)
-    const PublicFolder = IMAGE_API;
+    const PublicFolder = "http://localhost:3872/images/";
     
     useEffect(() => {
         // Simulate loading delay
@@ -20,13 +20,14 @@ export default function RightAbout(){
         }, 3000); // Simulate a 2-second delay
     }, []);
 
+
     return(
         <div className="w-1/5 flex-grow sticky top-20 flex h-full items-center justify-center px-5 xs:px-[50px] xl:px-0 mt-5 py-5">
                 <div className="flex flex-col justify-center items-center mt-10 gap-y-4 px-3">
                     {isLoading ? (
                         <Skeleton width={200} height={200} /> 
                     ) : (
-                        <img src={Jasper} alt="" className='w-[200px] h-[200px] rounded-full ring-2 ring-[#59A52C]'/>
+                        <img src={PublicFolder + user.profilePicture} alt="" className='w-[200px] h-[200px] rounded-full ring-2 ring-[#59A52C] object-cover'/>
                     )}
                     {isLoading ? (
                         <Skeleton width={40} height={20}/>

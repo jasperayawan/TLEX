@@ -4,9 +4,11 @@ import { MdVerified } from 'react-icons/md'
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useEffect, useState } from "react";
+import Axios from 'axios';
 
-export default function OnlineUsers(){
+export default function OnlineUsers({ user }){
     const [isLoading, setIsLoading] = useState(true);
+    const [friends, setFriends] = useState([])
     const isUserOnline = true;
 
     useEffect(() => {
@@ -15,6 +17,20 @@ export default function OnlineUsers(){
         setIsLoading(false);
         }, 3000); // Simulate a 2-second delay
     }, []);
+
+    useEffect(() => {
+        const getFriends = async () => {
+            try{
+                const response = await Axios.get('http://localhost:3872/api/users/friends/' + user.followings)
+                setFriends(response.data)
+            }
+            catch(error){
+                console.log(error)
+            }
+        }
+
+        getFriends();
+    },[user.followings])
     
     
     return(

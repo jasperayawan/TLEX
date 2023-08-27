@@ -65,10 +65,9 @@ export default function Hero() {
     getUser();
 },[])
 
-
   return (
     <div className="mx-auto max-w-[1600px] flex flex-col md:flex-row text-white">
-      <OnlineUsers />
+      <OnlineUsers user={user}/>
       <div className="w-1/2 min-h-screen overflow-y-auto">
         <div className="px-10 pt-5">
           <form onSubmit={postHandling}>

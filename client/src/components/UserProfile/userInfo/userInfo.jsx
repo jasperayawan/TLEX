@@ -9,9 +9,9 @@ export default function UserInfo({ user, updateProfile, userInfo, desc, setDesc,
                     <div className="flex flex-row justify-start gap-x-5">
                     <div className="relative rounded-full">
                         {file ? (
-                            <img src={URL.createObjectURL(file)} alt="" className="w-40 h-40 rounded-full" />
+                            <img src={URL.createObjectURL(file)} alt="" className="w-40 h-40 rounded-full object-cover" />
                         ) : (
-                            <img src={PF + user.profilePicture} alt="" className="w-40 h-40 rounded-full" />
+                            <img src={PF + user.profilePicture} alt="" className="w-40 h-40 rounded-full object-cover" />
                         )}
                         <label htmlFor="file" className="">
                             <BsFillPencilFill className="text-black cursor-pointer absolute bottom-4 right-4" fontSize={20}/>

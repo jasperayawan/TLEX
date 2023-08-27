@@ -59,7 +59,10 @@ export default function Profile(){
         }
         try{
             const response = await Axios.put(`http://localhost:3872/api/users/${getUser}`, updateUser)
-            setUserInfo(response.data)
+            if(response.status === 200){
+                alert('updated image!')
+                setUserInfo(response.data)
+            }
         }
         catch(error){
             console.log(error)

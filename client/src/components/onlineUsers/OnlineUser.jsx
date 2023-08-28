@@ -10,6 +10,7 @@ export default function OnlineUsers({ user }){
     const [isLoading, setIsLoading] = useState(true);
     const [friends, setFriends] = useState([])
     const isUserOnline = true;
+    const PublicFolder = 'http://localhost:3872/images/';
 
     useEffect(() => {
         // Simulate loading delay
@@ -21,7 +22,7 @@ export default function OnlineUsers({ user }){
     useEffect(() => {
         const getFriends = async () => {
             try{
-                const response = await Axios.get('http://localhost:3872/api/users/friends/' + user.followings)
+                const response = await Axios.get(`http://localhost:3872/api/users/friends/${user._id}`)
                 setFriends(response.data)
             }
             catch(error){
@@ -30,7 +31,7 @@ export default function OnlineUsers({ user }){
         }
 
         getFriends();
-    },[user.followings])
+    },[user._id])
     
     
     return(
@@ -38,13 +39,13 @@ export default function OnlineUsers({ user }){
             <div className="px-6 py-4 flex flex-col gap-y-3 w-full">
             <h2 className="text-sm text-slate-500 truncate font-bold">friends</h2>
             <ul role="list" className="p-6 divide-y divide-slate-300">
-                {SomeData.map((person) => (
-                    <li key={person.id} className="flex justify-between items-center py-4 first:pt-0 last:pb-0">
+                {friends.map((person) => (
+                    <li key={person._id} className="flex justify-between items-center py-4 first:pt-0 last:pb-0">
                         <div className="flex">
                             {isLoading ? (
                                 <Skeleton width={20} height={20}/> 
                             ) : (
-                                <img className="h-[30px] w-[30px] rounded-full" src={person.profile} alt="" />
+                                <img className="h-[30px] w-[30px] rounded-full" src={PublicFolder + person.profilePicture} alt="" />
                             )}
                             <div className="ml-3 overflow-hidden">
                                 {isLoading ? (
@@ -52,7 +53,7 @@ export default function OnlineUsers({ user }){
                                 ) : (
                                     <>
                                     <div className="flex">
-                                        <p className="text-sm font-medium text-black">{person.name}</p>
+                                        <p className="text-sm font-medium text-black">{person.username}</p>
                                         <MdVerified className="text-indigo-500 ml-2"/>
                                     </div>
                                     <div>

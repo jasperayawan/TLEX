@@ -7,13 +7,12 @@ import Axios from 'axios'
 
 export default function Hero() {
   const [desc, setDesc] = useState('')
-  const [post, setPost] = useState([]);
   const [file, setFile] = useState(null)
   const [user, setUser] = useState({})
 
   const getCurrentUserId = localStorage.getItem('id')
   const userFromState = localStorage.getItem('user')
-  const PublicFolder = "http://localhost:3872/images/";
+  const PublicFolder = 'http://localhost:3872/images/';
 
   const token = localStorage.getItem('token')
 
